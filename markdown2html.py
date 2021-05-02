@@ -4,7 +4,6 @@
 """
 from sys import argv, stderr
 import fnmatch
-import os
 
 
 def markdown_to_html(argv):
