@@ -4,6 +4,7 @@
 """
 from sys import argv, stderr
 import fnmatch
+import re
 
 
 def markdown_to_html(argv):
@@ -18,6 +19,7 @@ def markdown_to_html(argv):
         # Variables
         md = {1: "h1", 2: "h2", 3: "h3", 4: "h4", 5: "h5", 6: "h6", "-": "ul", "*": "ol"}
         Identifier = 0
+        paragraph = 0
 
         # check if the file exist read and write file.
         with open(argv[2], "w+") as file_html, open(argv[1], "r") as file_md:
@@ -55,6 +57,20 @@ def markdown_to_html(argv):
                         file_html.write("</{}>\n".format(tag))
                         Identifier = 0
 
+                # Paragraph  and single line break
+                elif line.split(" ")[0] not in readme:
+                    if line[0] != "\n":
+                        if paragraph != 1:
+                            file_html.write("<p>\n")
+                            paragraph = 1
+                        file_html.write(line)
+                        # if next line is part of the paragraph
+                        if i != len(readme) - 1 and readme[i + 1][0] != "\n" and readme[i + 1][0] not in readme:
+                            file_html.write("<br/>\n")
+                        else:
+                            file_html.write("</p>\n")
+                            paragraph = 0
+        exit(0)
     except IOError:
         stderr.write("Missing {}\n".format(argv[1]))
     exit(1)
