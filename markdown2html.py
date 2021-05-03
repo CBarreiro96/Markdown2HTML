@@ -58,14 +58,14 @@ def markdown_to_html(argv):
                         Identifier = 0
 
                 # Paragraph  and single line break
-                elif line.split(" ")[0] not in readme:
+                elif line.split(" ")[0] not in md:
                     if line[0] != "\n":
                         if paragraph != 1:
                             file_html.write("<p>\n")
                             paragraph = 1
                         file_html.write(line)
                         # if next line is part of the paragraph
-                        if i != len(readme) - 1 and readme[i + 1][0] != "\n" and readme[i + 1][0] not in readme:
+                        if i != len(readme) - 1 and readme[i + 1][0] != "\n" and readme[i + 1][0] not in md:
                             file_html.write("<br/>\n")
                         else:
                             file_html.write("</p>\n")
