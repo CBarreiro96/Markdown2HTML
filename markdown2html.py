@@ -8,7 +8,6 @@ import re
 
 
 def inline_tags(line, group):
-    print('inline tag')
     md_inline = {"**": "b", "__": "em"}
     line = line.replace(group, "<" + md_inline[group] + ">", 1)
     line = line.replace(group, "<" + "/" + md_inline[group] + ">", 1)
@@ -38,7 +37,6 @@ def markdown_to_html(argv):
                     match = inline.match(line)
                     # print(match, group)
                     line = inline_tags(line, match.group(1))
-                    print('hola1')
                     # print(line)
 
                 # Change '#' with heading tag
