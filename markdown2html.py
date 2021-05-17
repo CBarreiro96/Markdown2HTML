@@ -7,6 +7,13 @@ import fnmatch
 import re
 
 
+def inline_tags(line, group):
+    print('inline tag')
+    md_inline = {"**": "b", "__": "em"}
+    line = line.replace(group, "<" + md_inline[group] + ">", 1)
+    line = line.replace(group, "<" + "/" + md_inline[group] + ">", 1)
+    return line
+
 def markdown_to_html(argv):
 
     # Check if you write the argument
@@ -20,11 +27,19 @@ def markdown_to_html(argv):
         md = {1: "h1", 2: "h2", 3: "h3", 4: "h4", 5: "h5", 6: "h6", "-": "ul", "*": "ol"}
         Identifier = 0
         paragraph = 0
+        inline = re.compile(".*([**].*[**]|[__].*[__]).*")
 
         # check if the file exist read and write file.
         with open(argv[2], "w+") as file_html, open(argv[1], "r") as file_md:
             readme = file_md.readlines()
             for i, line in enumerate(readme):
+                while inline.match(line):
+                    # print("called!")
+                    match = inline.match(line)
+                    # print(match, group)
+                    line = inline_tags(line, match.group(1))
+                    print('hola1')
+                    # print(line)
 
                 # Change '#' with heading tag
                 if len(line) - len(line.lstrip("#")) > 0:
